@@ -1,91 +1,85 @@
-# Magic Portfolio
+# Fauwaaz Shaikh — Portfolio
 
-Magic Portfolio is a simple, clean, beginner-friendly portfolio template. It supports an MDX-based content system for projects and blog posts, an about / CV page and a gallery.
+Next.js 16 (App Router) · React 19 · Once UI 1.5.6 · Resend
 
-View the demo [here](https://demo.magic-portfolio.com).
+## Run it
 
-![Magic Portfolio](public/images/og/home.jpg)
-
-## Getting started
-
-**1. Clone the repository**
-```
-git clone https://github.com/once-ui-system/magic-portfolio.git
-```
-
-**2. Install dependencies**
-```
+```bash
 npm install
-```
-
-**3. Run dev server**
-```
+cp .env.example .env.local   # then fill in RESEND_API_KEY
 npm run dev
 ```
 
-**4. Edit config**
+## Structure
+
 ```
-src/resources/once-ui.config.js
+src/
+├── app/                        Routes only: fetch content, compose sections
+│   ├── layout.tsx              <html>, theme bootstrap, header/footer shell
+│   ├── page.tsx                Home: hero → featured project → other projects → contact
+│   ├── about/page.tsx
+│   ├── work/page.tsx
+│   ├── work/[slug]/page.tsx    Static case-study pages (dynamicParams = false)
+│   ├── api/contact/route.ts    Resend email handler
+│   ├── api/og/generate/        Dynamic OG images
+│   ├── sitemap.ts · robots.ts · not-found.tsx
+├── components/
+│   ├── layout/                 Header, NavLink, Footer, ThemeToggle, TimeDisplay, SiteBackground
+│   ├── sections/
+│   │   ├── home/               HomeHero
+│   │   ├── about/              AboutHeader, AboutSidebar, Experience/Studies/Skills sections, TOC
+│   │   ├── work/               Projects, ProjectCard
+│   │   └── contact/            ContactSection (server), ContactForm (client)
+│   ├── mdx/                    CustomMDX renderer for case studies
+│   ├── ui/                     EffectsBackground, MediaRow, PageSchema, ScrollToHash
+│   └── providers/              Once UI providers
+├── config/                     site.ts (URL, routes), theme.ts (colors, effects), fonts.ts, icons.ts
+├── content/
+│   ├── profile.tsx             ALL personal copy lives here
+│   └── projects/*.mdx          One file per project = one card + one case-study page
+├── lib/                        projects.ts, seo.ts, contact.ts (shared validation), theme-script.ts
+├── styles/                     breakpoints.scss, custom.css
+└── types/
 ```
 
-**5. Edit content**
+## Project screenshots
+
+Every case study ships with labelled placeholder images. Replace them with real captures:
+
+```bash
+npm run screenshots:install     # first time only: downloads Chromium
+npm run screenshots             # all nine projects, 4–6 pages each
+npm run screenshots -- usifa    # re-run a single project
 ```
-src/resources/content.js
-```
 
-**6. Create blog posts / projects**
-```
-Add a new .mdx file to src/app/blog/posts or src/app/work/projects
-```
+The script (`scripts/capture-screenshots.mjs`) loads each page at 1440×810, hides popups,
+cookie banners and chat bubbles, scrolls to trigger lazy images, then saves
+`public/images/projects/<slug>/<page>.jpg` and rewrites that project's `images:` frontmatter.
+Pages per site live in `scripts/screenshots.config.mjs`. If a popup still appears on a
+site, add its selector to that project's `hide` array.
 
-Magic Portfolio was built with [Once UI](https://once-ui.com) for [Next.js](https://nextjs.org). It requires Node.js v18.17+.
+## Editing content
 
-## Documentation
+- Text, jobs, skills, links: `src/content/profile.tsx`
+- New project: add `src/content/projects/<slug>.mdx` (copy an existing one's frontmatter; set `category`, `featured`, `order`), then add it to the screenshot config
+- Turn a page off: `routes` in `src/config/site.ts`
+- Colors and background effects: `src/config/theme.ts`
 
-Docs available at: [docs.once-ui.com](https://docs.once-ui.com/docs/magic-portfolio/quick-start)
+## Contact form (Resend)
 
-## Features
+| Variable | Required | Notes |
+|---|---|---|
+| `RESEND_API_KEY` | yes | resend.com → API Keys |
+| `CONTACT_EMAIL` | yes | Where messages arrive |
+| `RESEND_FROM_EMAIL` | for production | Sender on a domain verified in Resend |
 
-### Once UI
-- All tokens, components & features of [Once UI](https://once-ui.com)
+Without `RESEND_FROM_EMAIL`, the sender is `onboarding@resend.dev`. Resend only delivers
+from that address **to the email that owns the Resend account**, so sign up for Resend
+with `fauwaazpro@gmail.com`, or verify a domain.
 
-### SEO
-- Automatic open-graph and X image generation with next/og
-- Automatic schema and metadata generation based on the content file
+Spam protection is a honeypot field plus a minimum fill time. Bots get a fake success.
+There is no rate limit; add Vercel BotID or Upstash Ratelimit if spam becomes a problem.
 
-### Design
-- Responsive layout optimized for all screen sizes
-- Timeless design without heavy animations and motion
-- Endless customization options through [data attributes](https://once-ui.com/docs/theming)
+## Deploy (Vercel)
 
-### Content
-- Render sections conditionally based on the content file
-- Enable or disable pages for blog, work, gallery and about / CV
-- Generate and display social links automatically
-- Set up password protection for URLs
-
-### Localization
-- A localized, earlier version of Magic Portfolio is available with the next-intl library
-- To use localization, switch to the 'i18n' branch
-
-## Creators
-
-Lorant One: [Threads](https://www.threads.net/@lorant.one) / [LinkedIn](https://www.linkedin.com/in/lorant-one/)
-
-## Get involved
-
-- Join the Design Engineers Club on [Discord](https://discord.com/invite/5EyAQ4eNdS) and share your project with us!
-- Deployed your docs? Share it on the [Once UI Hub](https://once-ui.com/hub) too! We feature our favorite apps on our landing page.
-
-## License
-
-Distributed under the CC BY-NC 4.0 License.
-- Attribution is required.
-- Commercial usage is not allowed.
-- You can extend the license to [Dopler CC](https://dopler.app/license) by purchasing a [Once UI Pro](https://once-ui.com/pricing) license.
-
-See `LICENSE.txt` for more information.
-
-## Deploy with Vercel
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fonce-ui-system%2Fmagic-portfolio&project-name=portfolio&repository-name=portfolio&redirect-url=https%3A%2F%2Fgithub.com%2Fonce-ui-system%2Fmagic-portfolio&demo-title=Magic%20Portfolio&demo-description=Showcase%20your%20designers%20or%20developer%20portfolio&demo-url=https%3A%2F%2Fdemo.magic-portfolio.com&demo-image=%2F%2Fraw.githubusercontent.com%2Fonce-ui-system%2Fmagic-portfolio%2Fmain%2Fpublic%2Fimages%2Fog%2Fhome.jpg)
+Add the three env vars above, plus `NEXT_PUBLIC_SITE_URL` if you use a custom domain.

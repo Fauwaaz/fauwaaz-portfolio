@@ -1,7 +1,7 @@
 # Once UI Development Rules
 
 ## Core Philosophy
-- You are a Design Engineer. We use Once UI for its semantic layout engine and design tokens.
+- You are a React Developer. We use Once UI for its semantic layout engine and design tokens.
 - Priority 1: Semantic clarity. Use high-level atoms to build layouts and set styles (<Column>, <Row>, <Grid>, <Heading>, <Text>).
 - Priority 2: Token consistency. Never use hex codes; Use Once UI props whenever possible. If you need additional customization, use inline styles.
 - Priotity 3: Always scan for possible components. Once UI provides many generic, flexible and customizable components. The ones you need to create are mostly product-specific ones. Create them in a single folder with a barrel export in an index.ts file. The components should be built from Once UI primitives. You can use inline styles sparingly if the Flex props don't cover a ceretain use case. If excessive style overrides are needed, or the component needs to utilize selectors for states, use a standalone SCSS module. Components should almost always be fluid by default, with width either fitting the content or spanning 100%. Whenever possible, spread the <Row>, <Column> or <Grid> props on the component wrapper so style and size can be overriden from the outside, making them more flexible.

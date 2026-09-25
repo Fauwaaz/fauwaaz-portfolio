@@ -1,0 +1,8 @@
+@use "../../styles/breakpoints.scss" as breakpoints;
+
+@media (max-width: breakpoints.$s) {
+  .position {
+    top: auto;
+    bottom: var(--static-space-24);
+  }
+}

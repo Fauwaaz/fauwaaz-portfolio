@@ -1,0 +1,71 @@
+---
+title: "Tracker Netcall - Employee Activity Monitoring"
+summary: "A full-stack workforce monitoring platform for a telecom provider: real-time activity dashboard, live screen viewing, app/website tracking and productivity analytics, with a Windows agent deployed across shared workstations."
+category: "business"
+featured: true
+order: 4
+client: "Netcall Technology & Services"
+location: "Colorado, USA"
+stack: ["Next.js", "Node.js", "Socket.IO", "MongoDB", "Electron", "Cloudflare Tunnel"]
+link: "https://tracker.netcallservices.com/"
+images:
+  - "/images/projects/tracker-netcall/01-dashboard.png"
+  - "/images/projects/tracker-netcall/02-live-view.png"
+  - "/images/projects/tracker-netcall/03-employee-timeline.png"
+  - "/images/projects/tracker-netcall/04-reports.png"
+  - "/images/projects/tracker-netcall/05-workstations.png"
+  - "/images/projects/tracker-netcall/06-agent-login.png"
+---
+
+## Overview
+
+An internal tool for monitoring employee workstation activity across a shared-PC
+office. Staff sign in at any machine with an email and PIN; the workstation
+unlocks and begins attributing activity to that person, and signing out re-locks
+it for the next user. Administrators get a live dashboard of who is working,
+on what, and how productively.
+
+## What was built
+
+- A **real-time dashboard** (Socket.IO) showing every employee's live status,
+  current application, and today's active / idle / productive split.
+- A **desktop agent** for Windows (Electron) that samples the focused
+  application and idle time, captures periodic screenshots, and streams a live
+  ~1fps screen view on demand.
+- **Shared-workstation model**: the agent is bound to a machine, not a person;
+  employees log in over it, so one install serves a rotating team.
+- **Productivity analytics**: apps and websites classified productive / neutral
+  / distracting by editable rules, rolled into per-day and per-employee reports
+  with an IST-accurate 24-hour activity timeline.
+- **Role-based access** (admin vs. manager), a full audit log, and a network
+  scanner to discover and enrol new machines, including WiFi laptops.
+- **One-command deployment**: administrators generate a time-limited PowerShell
+  install command per workstation; the agent self-configures and connects.
+
+## Architecture
+
+A single Next.js process serves the dashboard, the API, and the Socket.IO hub,
+backed by MongoDB. Windows agents connect to the hub over a Cloudflare Tunnel,
+so machines on any network — office, WiFi, or remote — reach it without exposing
+the server directly. A one-second server-side tick drives all live state, so the
+dashboard stays authoritative regardless of client connectivity.
+
+Engineering focus went into the hard parts of always-on monitoring: surviving
+connection recycling through the tunnel, accurate session attribution on shared
+machines, data-retention limits so the activity store can't grow unbounded, and
+rate-limiting and origin controls on the realtime layer.
+
+## Stack
+
+Next.js and Node.js with a custom Socket.IO server, MongoDB via Mongoose, an
+Electron agent for Windows, and Cloudflare Tunnel for connectivity. Windows
+installers built via a CI pipeline on GitHub Actions.
+
+## My role
+
+Built at Sparkcloud, where I work as a web developer.
+
+{/* TODO(Fauwaaz): replace with YOUR specific contribution, e.g.
+   "Designed the data model and Socket.IO hub, built the Electron agent and the
+   Next.js dashboard, and handled the Ubuntu + Cloudflare Tunnel deployment."
+   State it truthfully — don't let the agency's collective work read as solo. */}
