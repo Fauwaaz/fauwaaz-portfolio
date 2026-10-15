@@ -48,14 +48,14 @@ export const home: HomeContent = {
     display: true,
     title: (
       <Row gap="12" vertical="center">
-        <strong className="ml-4">DBound Media</strong>{" "}
+        <strong className="ml-4">SparkCloud</strong>{" "}
         <Line background="brand-alpha-strong" vert height="20" />
         <Text marginRight="4" onBackground="brand-medium">
           Featured work
         </Text>
       </Row>
     ),
-    href: "/work/dbound-media",
+    href: "/work/sparkcloud",
   },
   subline: (
     <>
