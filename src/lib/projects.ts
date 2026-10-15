@@ -1,6 +1,7 @@
 import "server-only";
 import fs from "node:fs";
 import path from "node:path";
+// @ts-ignore gray-matter does not provide type declarations
 import matter from "gray-matter";
 import { cache } from "react";
 import type { Project, ProjectCategory, ProjectMetadata } from "@/types";
