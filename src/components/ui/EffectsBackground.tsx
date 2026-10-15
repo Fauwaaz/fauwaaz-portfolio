@@ -1,4 +1,4 @@
-import { Background, type opacity, type SpacingToken } from "@once-ui-system/core";
+import { Background, type Opacity, type SpacingToken } from "@once-ui-system/core";
 import type { ComponentProps } from "react";
 import type { EffectsConfig } from "@/types";
 
@@ -14,10 +14,10 @@ export function EffectsBackground({ effects, ...rest }: EffectsBackgroundProps) 
     <Background
       {...rest}
       mask={mask}
-      gradient={{ ...gradient, opacity: gradient.opacity as opacity }}
-      dots={{ ...dots, opacity: dots.opacity as opacity, size: dots.size as SpacingToken }}
-      grid={{ ...grid, opacity: grid.opacity as opacity }}
-      lines={{ ...lines, opacity: lines.opacity as opacity, size: lines.size as SpacingToken }}
+      gradient={{ ...gradient, opacity: gradient.opacity as Opacity }}
+      dots={{ ...dots, opacity: dots.opacity as Opacity, size: dots.size as SpacingToken }}
+      grid={{ ...grid, opacity: grid.opacity as Opacity }}
+      lines={{ ...lines, opacity: lines.opacity as Opacity, size: lines.size as SpacingToken }}
     />
   );
 }
